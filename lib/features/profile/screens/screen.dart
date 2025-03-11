@@ -19,14 +19,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBarBuilder.build(context, 'Ваш профиль'),
-      body: const Align(
+      body: Align(
         alignment: Alignment.bottomCenter,
         child: FractionallySizedBox(
           heightFactor: 690/700,
           widthFactor: 360/ 400,
           child: Column(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 200,
                   child: Row(
                     children: [
@@ -50,7 +50,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                   flex: 10,
                                   child: SizedBox.expand()
                               ),
-                              const Expanded(
+                              Expanded(
                                 flex: 60,
                                 child: InputWidget(title: 'Имя'),
                               ),
@@ -58,7 +58,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                   flex: 10,
                                   child: SizedBox.expand()
                               ),
-                              const Expanded(
+                              Expanded(
                                 flex: 60,
                                 child: InputWidget(title: 'Отчество'),
                               )
@@ -82,7 +82,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     ),
                   )
               ),
-              const Expanded(
+              Expanded(
                   flex: 67,
                   child: InputWidget(title: 'Эл.почта'),
               ),
@@ -90,7 +90,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   flex: 7,
                   child: SizedBox.expand()
               ),
-              const Expanded(
+              Expanded(
                   flex: 67,
                   child: InputWidget(title: 'Номер телефона'),
               ),
@@ -102,11 +102,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   flex: 80,
                   child: Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                           flex: 100,
                           child: Column(
                             children: [
-                              const Text('Пол'),
+                              Text('Пол'),
                               Expanded(child: GenderSelectionWidget())
                             ],
                           )
@@ -115,11 +115,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           flex: 5,
                           child: SizedBox.expand()
                       ),
-                      const Expanded(
+                      Expanded(
                           flex: 150,
                           child: Column(
                             children: [
-                              Text('Дата рождения'),
+                              const Text('Дата рождения'),
                               Expanded(child: InputWidget(title: 'Дата рождения', showTitle: false, maxHeight: 50,))
                             ],
                           )
@@ -128,11 +128,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           flex: 5,
                           child: SizedBox.expand()
                       ),
-                      const Expanded(
+                      Expanded(
                           flex: 100,
                           child: Column(
                             children: [
-                              Text('Возраст'),
+                              const Text('Возраст'),
                               Expanded(child: InputWidget(title: 'Возраст', showTitle: false, maxHeight: 50,))
                             ],
                           )
@@ -147,7 +147,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                       child: Text('Личная информация')
                   )
               ),
-              const Expanded(
+              Expanded(
                   flex: 67,
                   child: InputWidget(title: 'Место проживания')
               ),
@@ -155,7 +155,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   flex: 6,
                   child: SizedBox.expand()
               ),
-              const Expanded(
+              Expanded(
                   flex: 67,
                   child: Row(
                     children: [

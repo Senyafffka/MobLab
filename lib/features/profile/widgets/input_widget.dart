@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 
 class InputWidget extends StatelessWidget {
-  const InputWidget({
+  InputWidget({
     super.key, required this.title, this.showTitle = true, this.maxHeight = 25
-  });
+  }){
+    _focusNode.addListener((){
+      if(!_focusNode.hasFocus){
+        //todo обновление viewmodel
+      }
+    });
+  }
+
+  final _textController = TextEditingController();
+  final _focusNode = FocusNode();
 
   final String title;
   final bool showTitle;
@@ -24,8 +33,11 @@ class InputWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            (showTitle) ? Text(title, style: const TextStyle(fontFamily: 'Roboto', color: Colors.grey),) : const SizedBox(),
+            (showTitle) ? Text(title, style: const TextStyle(fontFamily: 'Roboto', color: Colors.grey),)
+                : const SizedBox(),
             TextField(
+              controller: _textController,
+              focusNode: _focusNode,
               style: const TextStyle(fontFamily: 'Roboto', color: Color.fromRGBO(76, 59, 77, 0.9)),
               decoration: InputDecoration(
                 border: InputBorder.none,
