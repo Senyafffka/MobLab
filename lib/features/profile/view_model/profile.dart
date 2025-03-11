@@ -2,7 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:intl/intl.dart';
 
 class Profile{
-  final Map<String,String> data = {
+  final Map<String,String> _data = {
     "name" : "",
     "surname": "",
     "patronymic": "",
@@ -16,25 +16,34 @@ class Profile{
     "isReadyToTravel": ""
   };
 
+  void update(String field, String info){
+    if(_data[field] == null){
+      throw Exception('Нет поля $field');
+    }
+    _data[field] = info;
+  }
+
+  List<String> get allFieldNames {return _data.keys.toList();}
+
   Either<List<String>, bool> isFullyFilledOut(){
     final incorrectFields = <String>[];
-    for(final field in data.keys){
-      if(data[field]==null){
+    for(final field in _data.keys){
+      if(_data[field]==null){
         throw Exception('$field in profile (MVVM) is null');
       } else{
-        if(data[field]!.isEmpty) incorrectFields.add(field);
+        if(_data[field]!.isEmpty) incorrectFields.add(field);
       }
     }
 
-    if(!incorrectFields.contains('dateOfBirth') && !_checkDate(data['dateOfBirth']!)){
+    if(!incorrectFields.contains('dateOfBirth') && !_checkDate(_data['dateOfBirth']!)){
       incorrectFields.add('dateOfBirth');
     }
     
-    if(!incorrectFields.contains('email') && !_checkEmail(data['email']!)){
+    if(!incorrectFields.contains('email') && !_checkEmail(_data['email']!)){
       incorrectFields.add('email');
     }
 
-    if(!incorrectFields.contains('phone') && !_checkPhoneNumber(data['phone']!)){
+    if(!incorrectFields.contains('phone') && !_checkPhoneNumber(_data['phone']!)){
       incorrectFields.add('phone');
     }
 
