@@ -26,7 +26,7 @@ class ProfilePhoto extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
-            borderRadius: BorderRadius.circular(4.0), // Закругленные углы
+            borderRadius: BorderRadius.circular(4.0),
           ),
           child: Center(
             child: Column(

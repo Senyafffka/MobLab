@@ -29,7 +29,7 @@ class InputWidget extends StatelessWidget {
               style: const TextStyle(fontFamily: 'Roboto', color: Color.fromRGBO(76, 59, 77, 0.9)),
               decoration: InputDecoration(
                 border: InputBorder.none,
-                constraints: BoxConstraints(maxHeight: maxHeight), // Максимальная высота
+                constraints: BoxConstraints(maxHeight: maxHeight),
               ),
             )
           ],
