@@ -15,6 +15,7 @@ class Profile{
     "citizenship": "",
   };
 
+  Map<String,String> get data{return _data;}
   bool _isReadyToTravel = true;
   GenderEnum _gender = GenderEnum.man;
 

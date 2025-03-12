@@ -35,10 +35,8 @@ void main(){
     profile.update('email', 'ivan@gmail.com');
     profile.update('phone', '89991232323');
     profile.update('dateOfBirth', '01.01.2003');
-    profile.update('gender', 'man');
     profile.update('age', '33');
     profile.update('placeOfResidence', 'г Томск ул Федора-Лыткина д 12 кв 123');
-    profile.update('isReadyToTravel', '1');
     profile.update('citizenship', 'РФ');
     expect(true, profile.isFullyFilledOut().isRight());
   });
