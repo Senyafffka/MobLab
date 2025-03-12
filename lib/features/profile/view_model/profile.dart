@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:intl/intl.dart';
+import 'package:my_resume/const/enums/gender_enum.dart';
 
 class Profile{
   final Map<String,String> _data = {
@@ -8,13 +9,20 @@ class Profile{
     "patronymic": "",
     "email": "",
     "phone": "",
-    "gender": "",
     "dateOfBirth": "",
     "age": "",
     "placeOfResidence": "",
     "citizenship": "",
-    "isReadyToTravel": ""
   };
+
+  bool _isReadyToTravel = true;
+  GenderEnum _gender = GenderEnum.man;
+
+  bool get isReadyToTravel{return _isReadyToTravel;}
+  GenderEnum get gender{return _gender;}
+
+  void changeGender() => _gender = (_gender == GenderEnum.man)? GenderEnum.woman : GenderEnum.man;
+  void changeReady() => _isReadyToTravel = !_isReadyToTravel;
 
   void update(String field, String info){
     if(_data[field] == null){
@@ -29,7 +37,7 @@ class Profile{
     final incorrectFields = <String>[];
     for(final field in _data.keys){
       if(_data[field]==null){
-        throw Exception('$field in profile (MVVM) is null');
+        throw Exception('$field in profile (VM) is null');
       } else{
         if(_data[field]!.isEmpty) incorrectFields.add(field);
       }
