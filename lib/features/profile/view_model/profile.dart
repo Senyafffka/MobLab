@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:my_resume/const/enums/gender_enum.dart';
 
 class Profile{
@@ -29,7 +30,26 @@ class Profile{
     if(_data[field] == null){
       throw Exception('Нет поля $field');
     }
-    _data[field] = info;
+    
+    if(
+    (field == 'dateOfBirth' && _checkDate(info)) || 
+        (field == 'age' && _checkDate(_data['dateOfBirth']!))
+    ) {
+      if(field == 'dateOfBirth') _data[field] = info;
+
+      DateTime date1 = DateTime.now();
+      DateTime date2 = DateFormat('dd.MM.yyyy').parseStrict(data['dateOfBirth']!);
+
+      int years = date1.year - date2.year;
+
+      if (date2.month < date1.month || (date2.month == date1.month && date2.day < date1.day)) {
+        years--;
+      }
+      Logger().i('[age] $years');
+      _data['age'] = years.toString();
+    } else {
+      _data[field] = info;
+    }
   }
 
   List<String> get allFieldNames {return _data.keys.toList();}
@@ -44,8 +64,20 @@ class Profile{
       }
     }
 
+    if(incorrectFields.contains('dateOfBirth') &&  !incorrectFields.contains('age')){
+      incorrectFields.add('age');
+    }
+
+    if(!incorrectFields.contains('age')){
+      final age = int.tryParse(_data['age']!);
+      if(age == null) incorrectFields.add('age');
+    }
+
     if(!incorrectFields.contains('dateOfBirth') && !_checkDate(_data['dateOfBirth']!)){
       incorrectFields.add('dateOfBirth');
+      if(!incorrectFields.contains('age')){
+        incorrectFields.add('age');
+      }
     }
     
     if(!incorrectFields.contains('email') && !_checkEmail(_data['email']!)){

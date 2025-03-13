@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:my_resume/features/profile/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 

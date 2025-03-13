@@ -27,7 +27,7 @@ abstract class ProfileMapper{
         email: p.email,
         phone: p.phone,
         gender: p.gender == GenderEnum.man ? 'man' : 'woman',
-        dateOfBirth: '${p.dateOfBirth.day}.${p.dateOfBirth.month}.${p.dateOfBirth.year}',
+        dateOfBirth: DateFormat('dd.MM.yyyy').format(p.dateOfBirth),
         age: p.age,
         placeOfResidence: p.placeOfResidence,
         citizenship: p.citizenship,

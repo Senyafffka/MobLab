@@ -29,7 +29,7 @@ abstract class ProfileMapper{
     profile.update('email', m.email);
     profile.update('phone', m.phone);
     profile.update('dateOfBirth',
-        '${m.dateOfBirth.day}.${m.dateOfBirth.month}.${m.dateOfBirth.year}'
+        DateFormat('dd.MM.yyyy').format(m.dateOfBirth)
     );
     profile.update('age', m.age.toString());
     profile.update('placeOfResidence', m.placeOfResidence);
