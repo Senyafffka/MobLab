@@ -10,14 +10,16 @@ class ProfilePhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         _showAlertDialog(context);
       },
       child: Card(
         elevation: 4.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0),),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4.0),
+        ),
         child: Container(
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [
                 Color.fromRGBO(93, 211, 158, 1),
@@ -32,9 +34,21 @@ class ProfilePhoto extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SvgPicture.asset('assets/image/user.svg', color: const Color.fromRGBO(76, 59, 77, 1),),
-                const Text('Добавить фото', style: TextStyle(fontFamily: 'Roboto', color: Color.fromRGBO(76, 59, 77, 1)),),
-                const Icon(CustomIcons.plus_1, color: Color.fromRGBO(76, 59, 77, 1), size: 15,)
+                SvgPicture.asset(
+                  'assets/image/user.svg',
+                  color: const Color.fromRGBO(76, 59, 77, 1),
+                ),
+                const Text(
+                  'Добавить фото',
+                  style: TextStyle(
+                      fontFamily: 'Roboto',
+                      color: Color.fromRGBO(76, 59, 77, 1)),
+                ),
+                const Icon(
+                  CustomIcons.plus_1,
+                  color: Color.fromRGBO(76, 59, 77, 1),
+                  size: 15,
+                )
               ],
             ),
           ),
@@ -55,7 +69,7 @@ void _showAlertDialog(BuildContext context) {
             Container(
               width: 200,
               height: 260,
-              decoration:  const BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
                     Color.fromRGBO(93, 211, 158, 1),
@@ -68,22 +82,28 @@ void _showAlertDialog(BuildContext context) {
               child: Stack(
                 children: [
                   Align(
-                    alignment: const Alignment(0.8,1),
+                    alignment: const Alignment(0.8, 1),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SvgPicture.asset('assets/image/camera.svg'),
-                        const Text('Сделать фото', style: TextStyle(fontSize: 20),)
+                        const Text(
+                          'Сделать фото',
+                          style: TextStyle(fontSize: 20),
+                        )
                       ],
                     ),
                   ),
                   Align(
-                    alignment: const Alignment(-0.8,-1),
+                    alignment: const Alignment(-0.8, -1),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SvgPicture.asset('assets/image/folder.svg'),
-                        const Text('Загрузить \n с устройства', style: TextStyle(fontSize: 20),)
+                        const Text(
+                          'Загрузить \n с устройства',
+                          style: TextStyle(fontSize: 20),
+                        )
                       ],
                     ),
                   ),
@@ -95,7 +115,7 @@ void _showAlertDialog(BuildContext context) {
               ),
             ),
             Padding(
-                padding: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.only(top: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -109,14 +129,17 @@ void _showAlertDialog(BuildContext context) {
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: TextButton(
-                style: TextButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(52, 138, 167, 1), //rgba(52, 138, 167, 1)
-                    padding: const EdgeInsets.all(16.0),),
-                  onPressed: (){},
-                  child: const Text('Установить фото', style: TextStyle(fontSize: 20, color: Colors.white),)
-              ),
+                  style: TextButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(52, 138, 167, 1),
+                    //rgba(52, 138, 167, 1)
+                    padding: const EdgeInsets.all(16.0),
+                  ),
+                  onPressed: () {},
+                  child: const Text(
+                    'Установить фото',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  )),
             )
-            
           ],
         ),
       );
@@ -130,7 +153,7 @@ class LinePainter extends CustomPainter {
     final paint = Paint()
       ..color = Colors.black
       ..strokeWidth = 1.0;
-    final startPoint =  Offset(size.width, 0);
+    final startPoint = Offset(size.width, 0);
 
     final endPoint = Offset(0, size.height);
 

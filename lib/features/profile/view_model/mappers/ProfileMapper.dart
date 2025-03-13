@@ -1,8 +1,9 @@
+import 'package:intl/intl.dart';
 import 'package:my_resume/features/profile/view_model/profile.dart' as vm;
-import 'package:my_resume/core/domain/profile/profile.dart' as model;
+import 'package:my_resume/core/domain/entities/profile/profile.dart' as model;
 
 abstract class ProfileMapper{
-  model.Profile getProfileForModel(vm.Profile vm){
+  static model.Profile getProfileForModel(vm.Profile vm){
     final data = vm.data;
     return model.Profile(
       name: data['name']!,
@@ -12,14 +13,14 @@ abstract class ProfileMapper{
       email: data['email']!,
       phone: data['phone']!,
       placeOfResidence: data['placeOfResidence']!,
-      dateOfBirth: DateTime.parse(data['dateOfBirth']!),
+      dateOfBirth: DateFormat('dd.MM.yyyy').parseStrict(data['dateOfBirth']!),
       age: int.parse(data['age']!),
       gender: vm.gender,
       isReadyToTravel: vm.isReadyToTravel,
     );
   }
 
-  vm.Profile getProfileForViewModel(model.Profile m){
+  static vm.Profile getProfileForViewModel(model.Profile m){
     final profile = vm.Profile();
 
     profile.update('name', m.name);
@@ -27,7 +28,9 @@ abstract class ProfileMapper{
     profile.update('patronymic', m.patronymic ?? "");
     profile.update('email', m.email);
     profile.update('phone', m.phone);
-    profile.update('dateOfBirth', m.dateOfBirth.toString());
+    profile.update('dateOfBirth',
+        '${m.dateOfBirth.day}.${m.dateOfBirth.month}.${m.dateOfBirth.year}'
+    );
     profile.update('age', m.age.toString());
     profile.update('placeOfResidence', m.placeOfResidence);
     profile.update('citizenship', m.citizenship);
