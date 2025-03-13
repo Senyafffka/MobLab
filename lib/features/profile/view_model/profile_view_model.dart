@@ -45,6 +45,7 @@ class ProfileViewModel extends ChangeNotifier {
   Future<void> updateProfile(String field, String data) async {
     _profile.update(field, data);
     await _checkAndUpdate();
+    notifyListeners();
   }
 
   Future<void> _checkAndUpdate() async {
@@ -61,7 +62,7 @@ class ProfileViewModel extends ChangeNotifier {
       _isSaved = await model.update(ProfileMapper.getProfileForModel(_profile));
     }else{
       _isSaved = false;
-      notifyListeners();
+      //notifyListeners();
     }
   }
 }
