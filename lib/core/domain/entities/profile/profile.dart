@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:my_resume/const/enums/gender_enum.dart';
 
@@ -17,6 +19,7 @@ abstract class Profile with _$Profile{
     required String placeOfResidence,
     required String citizenship,
     required bool isReadyToTravel,
+    Uint8List? img,
   }) = $Profile;
 }
 

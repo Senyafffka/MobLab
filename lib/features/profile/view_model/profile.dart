@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:fpdart/fpdart.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
@@ -16,15 +18,23 @@ class Profile{
     "citizenship": "",
   };
 
-  Map<String,String> get data{return _data;}
+
   bool _isReadyToTravel = true;
   GenderEnum _gender = GenderEnum.man;
+  Uint8List? img;
 
   bool get isReadyToTravel{return _isReadyToTravel;}
   GenderEnum get gender{return _gender;}
+  Map<String,String> get data{return _data;}
+  //String? get imgProvider{return _imgProvider;}
+  String getField(String tag){
+    if(data[tag] != null) return data[tag]!;
+    throw Exception('нет поля с tag : $tag');
+  }
 
   void changeGender() => _gender = (_gender == GenderEnum.man)? GenderEnum.woman : GenderEnum.man;
   void changeReady() => _isReadyToTravel = !_isReadyToTravel;
+  // void changePhoto(String path) => _imgProvider = path;
 
   void update(String field, String info){
     if(_data[field] == null){

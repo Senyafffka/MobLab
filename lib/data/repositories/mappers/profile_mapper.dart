@@ -16,7 +16,7 @@ abstract class ProfileMapper{
         age: pj.age,
         placeOfResidence: pj.placeOfResidence,
         citizenship: pj.citizenship,
-        isReadyToTravel: pj.isReadyToTravel
+        isReadyToTravel: pj.isReadyToTravel,
     );
   }
 
@@ -31,7 +31,7 @@ abstract class ProfileMapper{
         age: p.age,
         placeOfResidence: p.placeOfResidence,
         citizenship: p.citizenship,
-        isReadyToTravel: p.isReadyToTravel
+        isReadyToTravel: p.isReadyToTravel,
     );
   }
 }

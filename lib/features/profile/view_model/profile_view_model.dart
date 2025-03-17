@@ -1,3 +1,6 @@
+//import 'dart:nativewrappers/_internal/vm/lib/typed_data_patch.dart';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:my_resume/const/enums/gender_enum.dart';
@@ -15,7 +18,6 @@ class ProfileViewModel extends ChangeNotifier {
     model.profile.then((profile){
       _profile = (profile!=null) ?
           ProfileMapper.getProfileForViewModel(profile) : Profile();
-      Logger().i('[model loaded] $_profile');
       notifyListeners();
     });
   }
@@ -28,7 +30,8 @@ class ProfileViewModel extends ChangeNotifier {
   bool get isSaved{return _isSaved;}
   bool get profileIsReady{return _profile.isReadyToTravel;}
   GenderEnum get profileGender{return _profile.gender;}
-  String getField(String tag) => _profile.data[tag] ?? "error";
+  String getField(String tag) => _profile.getField(tag);
+  Uint8List? get img{ return _profile.img;}
 
   Future<void> changeReady() async {
     _profile.changeReady();
@@ -42,6 +45,12 @@ class ProfileViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> installPhoto(Uint8List img) async {
+    _profile.img = img;
+  }
+
+  
+
   Future<void> updateProfile(String field, String data) async {
     _profile.update(field, data);
     await _checkAndUpdate();
@@ -53,11 +62,8 @@ class ProfileViewModel extends ChangeNotifier {
 
     final correct = check.getOrElse((list){
       _incorrectFields = list;
-      Logger(printer: PrettyPrinter()).i('[incorrectFields]incorrect fields: $list',);
       return false;
     });
-
-    Logger().i('[new model] $_profile');
     if(correct){
       _isSaved = await model.update(ProfileMapper.getProfileForModel(_profile));
     }else{

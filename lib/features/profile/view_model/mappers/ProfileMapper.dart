@@ -17,6 +17,7 @@ abstract class ProfileMapper{
       age: int.parse(data['age']!),
       gender: vm.gender,
       isReadyToTravel: vm.isReadyToTravel,
+      img: vm.img
     );
   }
 
@@ -35,6 +36,7 @@ abstract class ProfileMapper{
     profile.update('placeOfResidence', m.placeOfResidence);
     profile.update('citizenship', m.citizenship);
 
+    //if(m.imgProvider!=null)profile.changePhoto(m.imgProvider!);
     if(profile.gender!=m.gender) profile.changeGender();
     if(profile.isReadyToTravel!=m.isReadyToTravel) profile.changeReady();
 
