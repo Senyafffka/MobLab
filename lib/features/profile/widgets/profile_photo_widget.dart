@@ -19,30 +19,22 @@ class ProfilePhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<ProfileViewModel>(context, listen: false);
-    return GestureDetector(
-      onTap: () {
-        vm.openPhotoLoader();
-      },
-      child: (vm.img == null) ? const NotFoundPhotoWidget() :
-      Image.memory(
-          vm.img!,
-        fit: BoxFit.scaleDown,
-      ),
+    return Consumer<ProfileViewModel>(
+      builder: (context, vm, _) {
+        return GestureDetector(
+          onTap: () {
+            vm.openPhotoLoader();
+          },
+          child: (vm.img == null) ? const NotFoundPhotoWidget() :
+          Image.memory(
+              vm.img!,
+            fit: BoxFit.scaleDown,
+          ),
+        );
+      }
     );
   }
 }
-
-// void _showAlertDialog(BuildContext context) {
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return AlertDialog(
-//         content: PhotoLoaderWidget(gContext: context),
-//       );
-//     },
-//   );
-// }
 
 class PhotoLoaderWidget extends StatefulWidget {
   const PhotoLoaderWidget({super.key});
