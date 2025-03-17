@@ -19,34 +19,33 @@ class ProfilePhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final img = Provider.of<ProfileViewModel>(context, listen: false).img;
+    final vm = Provider.of<ProfileViewModel>(context, listen: false);
     return GestureDetector(
       onTap: () {
-        _showAlertDialog(context);
+        vm.openPhotoLoader();
       },
-      child: (img == null) ? const NotFoundPhotoWidget() :
+      child: (vm.img == null) ? const NotFoundPhotoWidget() :
       Image.memory(
-          img,
+          vm.img!,
         fit: BoxFit.scaleDown,
       ),
     );
   }
 }
 
-void _showAlertDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: PhotoLoaderWidget(gContext: context),
-      );
-    },
-  );
-}
+// void _showAlertDialog(BuildContext context) {
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         content: PhotoLoaderWidget(gContext: context),
+//       );
+//     },
+//   );
+// }
 
 class PhotoLoaderWidget extends StatefulWidget {
-  const PhotoLoaderWidget({super.key, required this.gContext});
-  final BuildContext gContext;
+  const PhotoLoaderWidget({super.key});
 
   @override
   State<PhotoLoaderWidget> createState() => _PhotoLoaderWidgetState();
@@ -79,67 +78,90 @@ class _PhotoLoaderWidgetState extends State<PhotoLoaderWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return Stack(
       children: [
-        (provider == null)
-            ? ProfilePhotoPickerWidget(
-                onClickCameraArea: () {
-                  picker.pickImage(source: ImageSource.camera).then((file) {
-                    if (file == null) return;
-                    provider = ExtendedFileImageProvider(File(file.path),
-                        cacheRawData: true);
-                    setState(() {});
-                  });
-                },
-                onClickFolderArea: () {
-                  picker.pickImage(source: ImageSource.gallery).then((file) {
-                    if (file == null) return;
-                    provider = ExtendedFileImageProvider(File(file.path),
-                        cacheRawData: true);
-                    setState(() {});
-                  });
-                },
-              )
-            : ExtendedImage(
-                image: provider!,
-                width: 200,
-                height: 260,
-                extendedImageEditorKey: editorKey,
-                mode: ExtendedImageMode.editor,
-                fit: BoxFit.contain,
-                initEditorConfigHandler: (_) => EditorConfig(
-                  maxScale: 8.0,
-                  cropRectPadding: const EdgeInsets.all(20.0),
-                  hitTestSize: 20.0,
-                  cropAspectRatio: 2 / 1,
-                  controller: _editorController,
-                ),
-              ),
-        ProfilePhotoActions(
-          //photo actions--------------------------------------------------------------------------------------------------
-          onCrop: () async {
-            await crop(_editorController);
+        GestureDetector(
+          onTap: (){
+            Provider.of<ProfileViewModel>(context, listen: false).closePhotoLoader();
           },
-          onReverse: () {
-            if (!_hasPhoto(context)) return;
-            flip();
-          },
-          onRotateLeft: () {
-            if (!_hasPhoto(context)) return;
-            rotate(false);
-          },
-          onRotateRight: () {
-            if (!_hasPhoto(context)) return;
-            rotate(true);
-          },
+          child: const ColoredBox(
+              color: Color.fromRGBO(0, 0, 0, 0.7),
+            child: SizedBox.expand(),
+          ),
         ),
-        InstallPhotoButton(
-          onClick: () {
-            var vm = Provider.of<ProfileViewModel>(widget.gContext, listen: false);
-            vm.installPhoto(editorKey.currentState!.rawImageData);
-          },
-        )
+        Center(
+          child: Card(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  (provider == null)
+                      ? ProfilePhotoPickerWidget(
+                          onClickCameraArea: () {
+                            picker.pickImage(source: ImageSource.camera).then((file) {
+                              if (file == null) return;
+                              provider = ExtendedFileImageProvider(File(file.path),
+                                  cacheRawData: true);
+                              setState(() {});
+                            });
+                          },
+                          onClickFolderArea: () {
+                            picker.pickImage(source: ImageSource.gallery).then((file) {
+                              if (file == null) return;
+                              provider = ExtendedFileImageProvider(File(file.path),
+                                  cacheRawData: true);
+                              setState(() {});
+                            });
+                          },
+                        )
+                      : ExtendedImage(
+                          image: provider!,
+                          width: 200,
+                          height: 260,
+                          extendedImageEditorKey: editorKey,
+                          mode: ExtendedImageMode.editor,
+                          fit: BoxFit.contain,
+                          initEditorConfigHandler: (_) => EditorConfig(
+                            maxScale: 8.0,
+                            cropRectPadding: const EdgeInsets.all(20.0),
+                            hitTestSize: 20.0,
+                            cropAspectRatio: 2 / 1,
+                            controller: _editorController,
+                          ),
+                        ),
+                  ProfilePhotoActions(
+                    //photo actions--------------------------------------------------------------------------------------------------
+                    onCrop: () async {
+                      if (!_hasPhoto(context)) return;
+                      await crop(_editorController);
+                    },
+                    onReverse: () {
+                      if (!_hasPhoto(context)) return;
+                      flip();
+                    },
+                    onRotateLeft: () {
+                      if (!_hasPhoto(context)) return;
+                      rotate(false);
+                    },
+                    onRotateRight: () {
+                      if (!_hasPhoto(context)) return;
+                      rotate(true);
+                    },
+                  ),
+                  InstallPhotoButton(
+                    onClick: () {
+                      var vm =  Provider.of<ProfileViewModel>(context, listen: false);
+                      if(provider!=null)vm.installPhoto(editorKey.currentState!.rawImageData);
+                      vm.closePhotoLoader();
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

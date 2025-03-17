@@ -12,26 +12,51 @@ class ProfileViewModel extends ChangeNotifier {
   List<String> _incorrectFields = [];
   Profile _profile = Profile();
   bool _isSaved = false;
+  bool _isLoadingPhoto = false;
   ProfileModel model = ProfileModel();
 
-  ProfileViewModel(){
-    model.profile.then((profile){
-      _profile = (profile!=null) ?
-          ProfileMapper.getProfileForViewModel(profile) : Profile();
+  ProfileViewModel() {
+    model.profile.then((profile) {
+      _profile = (profile != null)
+          ? ProfileMapper.getProfileForViewModel(profile)
+          : Profile();
       notifyListeners();
     });
   }
 
-
-  bool isIncorrectFields(String field){
+  bool isIncorrectFields(String field) {
     return _incorrectFields.contains(field);
   }
 
-  bool get isSaved{return _isSaved;}
-  bool get profileIsReady{return _profile.isReadyToTravel;}
-  GenderEnum get profileGender{return _profile.gender;}
+  bool get isSaved {
+    return _isSaved;
+  }
+
+  bool get profileIsReady {
+    return _profile.isReadyToTravel;
+  }
+
+  GenderEnum get profileGender {
+    return _profile.gender;
+  }
+
+  bool get isLoadingPhoto{ return _isLoadingPhoto;}
+
   String getField(String tag) => _profile.getField(tag);
-  Uint8List? get img{ return _profile.img;}
+
+  Uint8List? get img {
+    return _profile.img;
+  }
+
+  void openPhotoLoader() {
+    _isLoadingPhoto = true;
+    notifyListeners();
+  }
+
+  void closePhotoLoader() {
+    _isLoadingPhoto = false;
+    notifyListeners();
+  }
 
   Future<void> changeReady() async {
     _profile.changeReady();
@@ -47,9 +72,8 @@ class ProfileViewModel extends ChangeNotifier {
 
   Future<void> installPhoto(Uint8List img) async {
     _profile.img = img;
+    //todo сохранение
   }
-
-  
 
   Future<void> updateProfile(String field, String data) async {
     _profile.update(field, data);
@@ -60,13 +84,13 @@ class ProfileViewModel extends ChangeNotifier {
   Future<void> _checkAndUpdate() async {
     final check = _profile.isFullyFilledOut();
 
-    final correct = check.getOrElse((list){
+    final correct = check.getOrElse((list) {
       _incorrectFields = list;
       return false;
     });
-    if(correct){
+    if (correct) {
       _isSaved = await model.update(ProfileMapper.getProfileForModel(_profile));
-    }else{
+    } else {
       _isSaved = false;
       //notifyListeners();
     }
