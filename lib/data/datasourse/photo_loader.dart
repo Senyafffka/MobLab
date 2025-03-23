@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:fpdart/fpdart.dart';
 import 'package:my_resume/data/datasourse/enums/img_type_enum.dart';
 import 'package:my_resume/data/datasourse/functions/convert_img_type_to_string_function.dart';
+import 'package:my_resume/data/datasourse/image_compressor/image_compressor.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PhotoLoader{
@@ -44,9 +45,12 @@ class PhotoLoader{
   Future<bool> saveImage(Uint8List imageData, ImgType type) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
+      final typeStr = ConvertImgTypeToStringFunction.body(type);
 
-      final file = File('${directory.path}/img${ConvertImgTypeToStringFunction.body(type)}');
-      await file.writeAsBytes(imageData);
+      final compressed = await ImageCompressor.compress(imageData, typeStr);
+
+      final file = File('${directory.path}/img$typeStr');
+      await file.writeAsBytes(compressed ?? imageData);
 
       return true;
     } catch (e) {

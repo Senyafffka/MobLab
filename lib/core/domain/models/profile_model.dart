@@ -1,4 +1,5 @@
 //import 'package:logger/logger.dart';
+import 'package:logger/logger.dart';
 import 'package:my_resume/core/domain/entities/profile/profile.dart';
 import 'package:my_resume/core/domain/repositories/photo_repository.dart';
 import 'package:my_resume/core/domain/repositories/profile_repository.dart';
@@ -20,7 +21,11 @@ class ProfileModel{
   }
 
   Future<bool> update(Profile profile) async{
-    if(profile.img!=null) photoRep.save(profile.img!);
+    if(profile.img!=null) {
+      final result = photoRep.save(profile.img!);
+      Logger().i('[img save] ${await result}');
+    }
+
 
     return await profileJsonRep.save(profile);
 

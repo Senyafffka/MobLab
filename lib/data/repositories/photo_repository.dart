@@ -25,13 +25,13 @@ class PhotoRepository implements IPhotoRepository{
     // Проверка на PNG (сигнатура: 89 50 4E 47 0D 0A 1A 0A)
     final pngSignature = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
     if (img.sublist(0, 8).every((byte) => pngSignature.contains(byte))) {
-      loader.saveImage(img, ImgType.png);
+      return await loader.saveImage(img, ImgType.png);
     }
 
     // Проверка на JPEG (сигнатура: FF D8 FF)
     final jpegSignature = [0xFF, 0xD8];
     if (img[0] == jpegSignature[0] && img[1] == jpegSignature[1]) {
-      loader.saveImage(img, ImgType.jpg);
+      return await loader.saveImage(img, ImgType.jpg);
     }
 
     return false;

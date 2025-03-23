@@ -72,12 +72,13 @@ class ProfileViewModel extends ChangeNotifier {
 
   Future<void> installPhoto(Uint8List img) async {
     _profile.img = img;
-    //todo сохранение
+    _checkAndUpdate();
   }
 
   Future<void> updateProfile(String field, String data) async {
     _profile.update(field, data);
     await _checkAndUpdate();
+    print(_incorrectFields);
     notifyListeners();
   }
 
