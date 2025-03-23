@@ -28,11 +28,11 @@ class ProfileModel{
       if(result.isNotEmpty){
         error += result;
       }
-      Logger().i('[img save] ${await result}');
+      Logger().i('[img save] $result');
     }
 
 
-    return "${await profileJsonRep.save(profile)}\n img: $error";
+    return "${await profileJsonRep.save(profile)}$error";
 
   }
 
