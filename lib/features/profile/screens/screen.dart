@@ -17,6 +17,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   int currentIndex = 0;
   String savedStatus = "";
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +29,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           return Selector<ProfileViewModel, String>(
             selector: (_, vm) => vm.savedStatus,
             builder: (BuildContext context, String value, Widget? child) {
+              final vm = Provider.of<ProfileViewModel>(context, listen: false);
               if(value.isNotEmpty){
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -37,7 +39,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         style: const TextStyle(color: Colors.white70),
                       ),
                       duration: const Duration(seconds: 2),
-                      backgroundColor: (value != 'saved') ? Colors.redAccent : Colors.green,
+                      backgroundColor: (!vm.isSaved) ? Colors.redAccent : Colors.green,
                     ),
                   );
                 });

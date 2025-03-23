@@ -29,8 +29,8 @@ class PhotoLoader{
     try {
       final directory = await getApplicationDocumentsDirectory();
 
-      final filePng = File('${directory.path}/img.png');
-      final fileJpg = File('${directory.path}/img.jpg');
+      filePng = File('${directory.path}/img.png');
+      fileJpg = File('${directory.path}/img.jpg');
 
       if (await jpgExists || await pngExists) {
         if(_jpgExists)return Either.right(await fileJpg.readAsBytes());
