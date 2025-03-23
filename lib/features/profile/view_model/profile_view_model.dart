@@ -12,6 +12,7 @@ class ProfileViewModel extends ChangeNotifier {
   List<String> _incorrectFields = [];
   Profile _profile = Profile();
   String savedStatus = "";
+  bool _isSaved = false;
   bool _isLoadingPhoto = false;
   ProfileModel model = ProfileModel();
 
@@ -43,7 +44,7 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   bool get isSaved {
-    return savedStatus.isEmpty;
+    return _isSaved;
   }
 
   bool get profileIsReady {
@@ -111,11 +112,13 @@ class ProfileViewModel extends ChangeNotifier {
         savedStatus = messagesIfCorrect[currentCorrectMessage];
         currentIncorrectMessage++;
         if(messagesIfCorrect.length == currentCorrectMessage) currentCorrectMessage = 0;
+        _isSaved = true;
       }
     } else {
       savedStatus = messagesIfIncorrect[currentIncorrectMessage];
       currentIncorrectMessage++;
       if(messagesIfIncorrect.length == currentIncorrectMessage) currentIncorrectMessage = 0;
+      _isSaved = false;
       //notifyListeners();
     }
 
