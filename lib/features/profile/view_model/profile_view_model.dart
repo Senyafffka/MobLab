@@ -15,6 +15,20 @@ class ProfileViewModel extends ChangeNotifier {
   bool _isLoadingPhoto = false;
   ProfileModel model = ProfileModel();
 
+  var currentCorrectMessage = 0;
+  var currentIncorrectMessage = 0;
+
+  final messagesIfIncorrect = [
+    'Поля заполнены неправильно',
+    'Некорректный ввод',
+  ];
+
+  final messagesIfCorrect = [
+    'Успешно сохранено!',
+    'Я всё сохранил',
+    'Данные сохранены'
+  ];
+
   ProfileViewModel() {
     model.profile.then((profile) {
       _profile = (profile != null)
@@ -92,10 +106,19 @@ class ProfileViewModel extends ChangeNotifier {
     if (correct) {
       _incorrectFields = [];
       savedStatus= await model.update(ProfileMapper.getProfileForModel(_profile));
-      if(savedStatus.isEmpty) savedStatus = 'saved';
+
+      if(savedStatus.isEmpty){
+        savedStatus = messagesIfCorrect[currentCorrectMessage];
+        currentIncorrectMessage++;
+        if(messagesIfCorrect.length == currentCorrectMessage) currentCorrectMessage = 0;
+      }
     } else {
-      savedStatus = '';
+      savedStatus = messagesIfIncorrect[currentIncorrectMessage];
+      currentIncorrectMessage++;
+      if(messagesIfIncorrect.length == currentIncorrectMessage) currentIncorrectMessage = 0;
       //notifyListeners();
     }
+
+    Logger().i('[savedStatus] $savedStatus');
   }
 }

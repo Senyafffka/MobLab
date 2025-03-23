@@ -32,7 +32,7 @@ class ProfileModel{
     }
 
 
-    return await profileJsonRep.save(profile);
+    return "${await profileJsonRep.save(profile)}\n img: $error";
 
   }
 
