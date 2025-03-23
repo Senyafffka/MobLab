@@ -90,9 +90,11 @@ class ProfileViewModel extends ChangeNotifier {
       return false;
     });
     if (correct) {
+      _incorrectFields = [];
       savedStatus= await model.update(ProfileMapper.getProfileForModel(_profile));
+      if(savedStatus.isEmpty) savedStatus = 'saved';
     } else {
-      savedStatus = 'saved';
+      savedStatus = '';
       //notifyListeners();
     }
   }
