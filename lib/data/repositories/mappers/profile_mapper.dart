@@ -22,6 +22,7 @@ abstract class ProfileMapper{
 
   static ProfileJson toData(Profile p){
     return ProfileJson(
+        patronymic: p.patronymic,
         name: p.name,
         surname: p.surname,
         email: p.email,

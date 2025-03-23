@@ -8,7 +8,7 @@ abstract class ProfileMapper{
     return model.Profile(
       name: data['name']!,
       surname: data['surname']!,
-      patronymic: data['patronymic'],
+      patronymic: data['patronymic']!.isEmpty ? null : data['patronymic']!,
       citizenship: data['citizenship']!,
       email: data['email']!,
       phone: data['phone']!,
