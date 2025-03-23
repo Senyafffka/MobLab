@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:my_resume/const/config/image_compressor.dart';
 
 class ImageCompressor {
 
-  static Future<Uint8List?> compress(Uint8List imageBytes, String type) async {
+  static Future<Either<String,Uint8List?>> compress(Uint8List imageBytes, String type) async {
     try {
       final dio = Dio();
 
@@ -31,14 +32,12 @@ class ImageCompressor {
           options: Options(responseType: ResponseType.bytes),
         );
 
-        return compressedResponse.data;
+        return Either.right(compressedResponse.data);
       } else {
-        print('Ошибка при сжатии изображения: ${response.statusCode}');
-        return null;
+        return Either.left('Ошибка при сжатии изображения: ${response.statusCode}');
       }
     } catch (e) {
-      print('Исключение: $e');
-      return null;
+      return Either.left('Исключение: $e');
     }
   }
 }

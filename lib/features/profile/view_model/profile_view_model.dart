@@ -11,7 +11,7 @@ import 'package:my_resume/features/profile/view_model/profile.dart';
 class ProfileViewModel extends ChangeNotifier {
   List<String> _incorrectFields = [];
   Profile _profile = Profile();
-  bool _isSaved = false;
+  String savedStatus = "";
   bool _isLoadingPhoto = false;
   ProfileModel model = ProfileModel();
 
@@ -29,7 +29,7 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   bool get isSaved {
-    return _isSaved;
+    return savedStatus.isEmpty;
   }
 
   bool get profileIsReady {
@@ -90,9 +90,9 @@ class ProfileViewModel extends ChangeNotifier {
       return false;
     });
     if (correct) {
-      _isSaved = await model.update(ProfileMapper.getProfileForModel(_profile));
+      savedStatus= await model.update(ProfileMapper.getProfileForModel(_profile));
     } else {
-      _isSaved = false;
+      savedStatus = 'saved';
       //notifyListeners();
     }
   }

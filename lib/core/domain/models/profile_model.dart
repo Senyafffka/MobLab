@@ -20,9 +20,14 @@ class ProfileModel{
     return _find();
   }
 
-  Future<bool> update(Profile profile) async{
+  Future<String> update(Profile profile) async{
+    String error = "";
+
     if(profile.img!=null) {
-      final result = photoRep.save(profile.img!);
+      final result = await photoRep.save(profile.img!);
+      if(result.isNotEmpty){
+        error += result;
+      }
       Logger().i('[img save] ${await result}');
     }
 

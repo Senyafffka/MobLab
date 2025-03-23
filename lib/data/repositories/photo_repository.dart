@@ -18,9 +18,9 @@ class PhotoRepository implements IPhotoRepository{
   }
 
   @override
-  Future<bool> save(Uint8List img) async {
+  Future<String> save(Uint8List img) async {
 
-    if (img.length < 8) return false; // Минимум для проверки PNG
+    if (img.length < 8) return "Минимум для проверки PNG img.length > 8"; // Минимум для проверки PNG
 
     // Проверка на PNG (сигнатура: 89 50 4E 47 0D 0A 1A 0A)
     final pngSignature = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
@@ -34,7 +34,7 @@ class PhotoRepository implements IPhotoRepository{
       return await loader.saveImage(img, ImgType.jpg);
     }
 
-    return false;
+    return "неизвестная сигнатура!";
   }
 
 }

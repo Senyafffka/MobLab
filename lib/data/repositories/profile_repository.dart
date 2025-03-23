@@ -26,14 +26,14 @@ class ProfileRepository implements IProfileRepository{
   }
 
   @override
-  Future<bool> save(Profile profile) async {
+  Future<String> save(Profile profile) async {
     final result = await loader.save(ProfileMapper.toData(profile));
 
     if(result != null){
       Logger().i('[error] ProfileRepository in find() : $result');
-      return false;
+      return result;
     }
-    return true;
+    return "";
   }
 
 }

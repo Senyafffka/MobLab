@@ -15,6 +15,7 @@ class MyProfileScreen extends StatefulWidget {
 
 class _MyProfileScreenState extends State<MyProfileScreen> {
   int currentIndex = 0;
+  String savedStatus = "";
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +25,42 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       body: ChangeNotifierProvider(
         create: (context) => ProfileViewModel(),
         child: Builder(builder: (context){
-          return Selector<ProfileViewModel, bool>(
-            selector: (_, vm) => vm.isLoadingPhoto,
-            builder: (context, isLoadingPhoto, _){
-              return IndexedStack(
-                index: isLoadingPhoto ? 1 : 0,
-                children: const [
-                  ProfileScreenSkeleton(),
-                  Stack(
-                    children: [
-                      ProfileScreenSkeleton(),
-                      PhotoLoaderWidget(),
-                    ],
-                  )
-                ],
-              );
+          return Selector<ProfileViewModel, String>(
+            selector: (_, vm) => vm.savedStatus,
+            builder: (BuildContext context, String value, Widget? child) {
+              if(value.isNotEmpty){
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        value,
+                        style: const TextStyle(color: Colors.white70),
+                      ),
+                      duration: const Duration(seconds: 2),
+                      backgroundColor: (value != 'saved') ? Colors.redAccent : Colors.green,
+                    ),
+                  );
+                });
+              }
+              return child ?? const SizedBox();
             },
+            child: Selector<ProfileViewModel, bool>(
+              selector: (_, vm) => vm.isLoadingPhoto,
+              builder: (context, isLoadingPhoto, _){
+                return IndexedStack(
+                  index: isLoadingPhoto ? 1 : 0,
+                  children: const [
+                    ProfileScreenSkeleton(),
+                    Stack(
+                      children: [
+                        ProfileScreenSkeleton(),
+                        PhotoLoaderWidget(),
+                      ],
+                    )
+                  ],
+                );
+              },
+            ),
           );
         }),
       ),

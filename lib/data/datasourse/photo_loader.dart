@@ -42,19 +42,25 @@ class PhotoLoader{
     }
   }
 
-  Future<bool> saveImage(Uint8List imageData, ImgType type) async {
+  Future<String> saveImage(Uint8List imageData, ImgType type) async {
     try {
+      String error = "";
       final directory = await getApplicationDocumentsDirectory();
       final typeStr = ConvertImgTypeToStringFunction.body(type);
 
-      final compressed = await ImageCompressor.compress(imageData, typeStr);
+      final request= await ImageCompressor.compress(imageData, typeStr);
+
+      Uint8List? compressed = request.getOrElse((str){
+        error = str;
+        return null;
+      });
 
       final file = File('${directory.path}/img$typeStr');
       await file.writeAsBytes(compressed ?? imageData);
 
-      return true;
+      return error;
     } catch (e) {
-      return false;
+      return e.toString();
     }
   }
 }
